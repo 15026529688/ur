@@ -306,7 +306,7 @@ void TestMainWindow::on_initP_btn_clicked()
 //    double eulerangles2= eulerangles[2]+0.1;
 
     //向上移动到圆弧的位置
-    start_circle_pose = {0,-0.49,0.3,1.57,0,0};
+    start_circle_pose = {0,-0.49,0.5,1.57,0,0};
     rtde_control->moveL(start_circle_pose,0.1,0.5);
     Eigen::Vector3d start_circle_position(start_circle_pose[0],start_circle_pose[1],start_circle_pose[2]);
 
@@ -325,7 +325,7 @@ void TestMainWindow::on_initP_btn_clicked()
 //基座顺时针测试
 void TestMainWindow::on_base_clockwise_btn_clicked()
 {
-    double angle_step = 0.05;  // 每次步进的角度
+    double angle_step = 0.1;  // 每次步进的角度
     //angle += angle_step;
 
     //double theta = 1.57;
@@ -366,7 +366,7 @@ void TestMainWindow::on_base_counterclockwise_btn_clicked()
 //    rtde_control->moveL(position,0.1,0.5);
 
 
-    double angle_step = 0.05;  // 每次步进的角度
+    double angle_step = 0.1;  // 每次步进的角度
     //angle += angle_step;
 
     //double theta = 1.57;
