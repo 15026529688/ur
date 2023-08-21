@@ -1,7 +1,6 @@
 #include "testmainwindow.h"
 
 #include <QApplication>
-#include "qsidebar.h"
 #include <QtWidgets/QApplication>
 #include <QtWidgets\qlabel.h>
 

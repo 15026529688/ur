@@ -4,7 +4,6 @@
 #include <QThread>
 #include "my_thread.h"
 #include <QToolBar>
-#include "qsidebar.h"
 #include <QtWidgets/QApplication>
 #include <QtWidgets\qlabel.h>
 #include <QFuture>
@@ -391,20 +390,16 @@ void TestMainWindow::on_base_counterclockwise_btn_clicked()
 void TestMainWindow::on_base_counterclockwise_btn_2_clicked()
 {
 
-    double angle_step = 10* M_PI/180;  // 每次步进的角度
-
+    double angle_step = 0.05;  // 每次步进的角度
+    std::vector<double> joints =rtde_receive->getActualQ();
     for(int i=0;i<6;i++){
-        Z_position[i] = robot_data::g_TCP_Pose[i];
+        Z_position[i] = joints[i];
     }
 
-    //std::vector<double > Z_position = robot_data::g_TCP_Pose;
-    //qDebug()<<Z_position[4];
-    //std::vector<double> ActualToolFlangePose = rtde_control->getActualToolFlangePose();
-    //qDebug()<<"ActualToolFlangePose"<<ActualToolFlangePose[0]<<ActualToolFlangePose[1]<<ActualToolFlangePose[2]<<ActualToolFlangePose[3]<<ActualToolFlangePose[4];
-    double z_angle = Z_position[4]+angle_step;
-    Z_position[4]= z_angle;
-    rtde_control->moveL(Z_position,0.1,0.5);
-    qDebug()<<Z_position[0]<<Z_position[1]<<Z_position[2]<<Z_position[3]<<Z_position[4]<<Z_position[5];
+    double z_angle = joints[5]-angle_step;
+    Z_position[5]= z_angle;
+    rtde_control->moveJ(Z_position, 1.05, 1.4);
+    qDebug()<<Z_position[5];
 
 }
 
@@ -412,16 +407,19 @@ void TestMainWindow::on_base_counterclockwise_btn_2_clicked()
 //Z轴逆时针
 void TestMainWindow::on_Z_clockwise_btn_clicked()
 {
-    std::vector<double> zero_tcp = {0,0,0,0,0,0};
-    rtde_control->setTcp(zero_tcp);
     double angle_step = 0.05;  // 每次步进的角度
-    std::vector<double> Z_position = robot_data::g_TCP_Pose;
-    double z_angle = robot_data::g_TCP_Pose[4]-angle_step;
-    Z_position[4]= z_angle;
-    rtde_control->moveL(Z_position,0.1,0.5);
-    qDebug()<<Z_position[0]<<Z_position[1]<<Z_position[2]<<Z_position[3]<<Z_position[4]<<Z_position[5];
+    std::vector<double> joints =rtde_receive->getActualQ();
+    for(int i=0;i<6;i++){
+        Z_position[i] = joints[i];
+    }
+
+    double z_angle = joints[5]+angle_step;
+    Z_position[5]= z_angle;
+    rtde_control->moveJ(Z_position, 1.05, 1.4);
+    qDebug()<<Z_position[5];
 }
 
+//x轴顺时针
 void TestMainWindow::on_Rx_clockwise_btn_clicked()
 {
     std::vector<double> zero_tcp = {0,0,0,0,0,0};
@@ -434,6 +432,7 @@ void TestMainWindow::on_Rx_clockwise_btn_clicked()
 
 }
 
+//x轴逆时针
 void TestMainWindow::on_Rx_counterclockwise_btn_clicked()
 {
     std::vector<double> zero_tcp = {0,0,0,0,0,0};
